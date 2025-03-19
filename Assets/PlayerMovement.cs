@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float maxSpeed = 75f;
-    public float acceleration = 250f;
-    public float deceleration = 200f;
-    public float angularSpeed = 10f;
+    public float MaxWalkSpeed = 110f;
+    public float MaxRunSpeed = 110f;
+    public float Acceleration = 250f;
+    public float Deceleration = 200f;
+    public float AngularSpeed = 10f;
 
     private Vector2 velocity;
     private float targetAngle;
 
     private Rigidbody2D rb;
+
+    private float currentMaxSpeed;
 
     void Start()
     {
@@ -44,10 +47,12 @@ public class PlayerMovement : MonoBehaviour
             isMoving = true;
         }
 
+        currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
+
         // Normalize and store target angle
         if (isMoving)
         {
-            targetVelocity = targetVelocity.normalized * maxSpeed;
+            targetVelocity = targetVelocity.normalized * currentMaxSpeed;
             targetAngle = Mathf.Atan2(targetVelocity.y, targetVelocity.x) * Mathf.Rad2Deg + 270;
         }
 
@@ -55,11 +60,11 @@ public class PlayerMovement : MonoBehaviour
         if (isMoving)
         {
             Vector2 accelDir = (targetVelocity - velocity).normalized;
-            velocity += accelDir * acceleration * Time.deltaTime;
+            velocity += accelDir * Acceleration * Time.deltaTime;
 
-            if (velocity.magnitude > maxSpeed)
+            if (velocity.magnitude > currentMaxSpeed)
             {
-                velocity = velocity.normalized * maxSpeed;
+                velocity = velocity.normalized * currentMaxSpeed;
             }
         }
         else
@@ -67,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
             if (velocity.magnitude > 0)
             {
                 Vector2 decelDir = -velocity.normalized;
-                velocity += decelDir * deceleration * Time.deltaTime;
+                velocity += decelDir * Deceleration * Time.deltaTime;
 
                 if (velocity.magnitude < 1)
                 {
@@ -84,10 +89,10 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(angleDiff) > 0.01f)
             {
                 float rotationDirection = Mathf.Sign(angleDiff);
-                transform.Rotate(Vector3.forward, rotationDirection * angularSpeed * Time.deltaTime);
+                transform.Rotate(Vector3.forward, rotationDirection * AngularSpeed * Time.deltaTime);
 
                 // Clamp rotation if overshot
-                if (Mathf.Abs(angleDiff) < angularSpeed * Time.deltaTime)
+                if (Mathf.Abs(angleDiff) < AngularSpeed * Time.deltaTime)
                 {
                     transform.rotation = Quaternion.Euler(0, 0, targetAngle);
                 }

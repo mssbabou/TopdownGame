@@ -5,14 +5,9 @@ public class Bullet : MonoBehaviour
     float Damage;
     float Speed;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        transform.position += transform.up * Speed * Time.deltaTime;  
+        transform.position += Speed * Time.deltaTime * transform.up;  
     }
 
     public void Init(float damage, float speed)

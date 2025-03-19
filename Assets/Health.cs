@@ -47,6 +47,6 @@ public class Health : MonoBehaviour
     // For debugging purposes (displaying health in the Inspector)
     private void OnGUI()
     {
-        GUILayout.Label(gameObject.name + " Health: " + CurrentHealth + "/" + MaxHealth);
+        //GUILayout.Label(gameObject.name + " Health: " + CurrentHealth + "/" + MaxHealth);
     }
 }

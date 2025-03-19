@@ -5,6 +5,8 @@ public class PlayerShoot : MonoBehaviour
     public Transform ShootPoint;
     public GameObject BulletPrefab;
 
+    public LayerMask PlayerLayer;
+
     public float BulletDamage;
     public float BulletSpeed;
 
@@ -19,7 +21,7 @@ public class PlayerShoot : MonoBehaviour
         {
             var bullet = Instantiate(BulletPrefab, ShootPoint.position, ShootPoint.rotation);
             var bulletScript = bullet.GetComponent<Bullet>();
-            bulletScript.Init(BulletDamage, BulletSpeed);
+            bulletScript.Init(BulletDamage, BulletSpeed, PlayerLayer);
         }
     }
 }

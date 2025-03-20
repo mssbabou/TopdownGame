@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -7,7 +6,7 @@ public class Bullet : MonoBehaviour
 
     float Damage;
     float Speed;
-    float MaxDistance = 1000;
+    float MaxDistance = 20f;
 
     float distanceTraveled;
 
@@ -18,7 +17,6 @@ public class Bullet : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, RotationToDirection2D(transform.rotation.z), Speed * Time.deltaTime, ~layermask);
         if (hit)
         {
-
             Health health = hit.collider.gameObject.GetComponent<Health>();
             if (health)
             {
@@ -29,10 +27,10 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            transform.position += Speed * Time.deltaTime * transform.up;  
+            transform.position += Speed * Time.deltaTime * transform.up;
             distanceTraveled += Speed * Time.deltaTime;
 
-            if (distanceTraveled >= MaxDistance) DeSpawn(); 
+            if (distanceTraveled >= MaxDistance) DeSpawn();
         }
     }
 

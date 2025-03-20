@@ -173,8 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxWalkSpeed: 7.5
   MaxRunSpeed: 11
-  Acceleration: 250
-  Deceleration: 200
+  Acceleration: 150
+  Deceleration: 100
   AngularSpeed: 5000
 --- !u!114 &7816851769706321257
 MonoBehaviour:
@@ -225,7 +225,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 2.54469
   m_LinearDamping: 0
-  m_AngularDamping: 3
+  m_AngularDamping: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:

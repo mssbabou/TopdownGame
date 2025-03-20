@@ -173,7 +173,8 @@ MonoBehaviour:
   MaxRunSpeed: 11
   Acceleration: 250
   Deceleration: 200
-  AngularSpeed: 1000
+  AngularSpeed: 5000
+  AngularDrag: 5
 --- !u!114 &7816851769706321257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +190,9 @@ MonoBehaviour:
   ShootPoint: {fileID: 4137300608505622962}
   BulletPrefab: {fileID: 128168255057807245, guid: bf4702f91d8864699ae823e25f507c41,
     type: 3}
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   BulletDamage: 10
   BulletSpeed: 50
 --- !u!114 &5028091126849468582
@@ -222,10 +226,10 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
+  m_UseAutoMass: 1
+  m_Mass: 2.54469
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 3
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -234,7 +238,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -248,7 +252,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ee1aed8823110e541a7ecaa7496e4e80, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

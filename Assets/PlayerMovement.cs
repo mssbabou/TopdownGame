@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float MaxWalkSpeed = 110f;
-    public float MaxRunSpeed = 110f;
+    public float MaxWalkSpeed = 7.5f;
+    public float MaxRunSpeed = 11f;
     public float Acceleration = 250f;
     public float Deceleration = 200f;
-    public float AngularSpeed = 10f;
+    public float AngularSpeed = 500f; // Angular speed for smooth rotation
 
     private Vector2 velocity;
     private float targetAngle;
@@ -25,7 +25,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 targetVelocity = Vector2.zero;
         bool isMoving = false;
+        bool isAiming = false;
 
+        // Handle movement input
         if (Input.GetKey(KeyCode.D)) // Move Right
         {
             targetVelocity.x += 1;
@@ -47,16 +49,22 @@ public class PlayerMovement : MonoBehaviour
             isMoving = true;
         }
 
+        // Check for aiming input
+        if (Input.GetMouseButton(1))
+        {
+            isAiming = true;
+        }
+
+        // Set movement speed based on run or walk
         currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
 
-        // Normalize and store target angle
+        // Normalize and store the target velocity and angle when moving
         if (isMoving)
         {
             targetVelocity = targetVelocity.normalized * currentMaxSpeed;
-            targetAngle = Mathf.Atan2(targetVelocity.y, targetVelocity.x) * Mathf.Rad2Deg + 270;
         }
 
-        // Accelerate or decelerate
+        // Accelerate or decelerate based on movement
         if (isMoving)
         {
             Vector2 accelDir = (targetVelocity - velocity).normalized;
@@ -81,25 +89,46 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Rotate only if moving
-        if (isMoving)
+        // Handle rotation
+        if (isAiming)
         {
-            float angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, targetAngle);
+            // Rotate towards mouse position when aiming
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 directionToMouse = mousePosition - (Vector2)transform.position;
+            targetAngle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg + 270;
 
-            if (Mathf.Abs(angleDiff) > 0.01f)
-            {
-                float rotationDirection = Mathf.Sign(angleDiff);
-                transform.Rotate(Vector3.forward, rotationDirection * AngularSpeed * Time.deltaTime);
-
-                // Clamp rotation if overshot
-                if (Mathf.Abs(angleDiff) < AngularSpeed * Time.deltaTime)
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, targetAngle);
-                }
-            }
+            RotateTowardsTargetAngle();
+        }
+        else if (isMoving)
+        {
+            // Rotate towards movement direction when not aiming
+            targetAngle = Mathf.Atan2(targetVelocity.y, targetVelocity.x) * Mathf.Rad2Deg + 270;
+            RotateTowardsTargetAngle();
         }
 
-        // Apply velocity
+        // Apply velocity to the Rigidbody
         rb.linearVelocity = velocity;
+    }
+
+    // Apply smooth rotation towards target angle at fixed angular speed
+    void RotateTowardsTargetAngle()
+    {
+        float currentAngle = transform.rotation.eulerAngles.z;
+        float angleDiff = Mathf.DeltaAngle(currentAngle, targetAngle);
+
+        if (Mathf.Abs(angleDiff) > 0.01f)
+        {
+            float rotationDirection = Mathf.Sign(angleDiff);
+            float angularVelocity = rotationDirection * AngularSpeed * Time.deltaTime;
+
+            // Use Rigidbody2D to rotate smoothly
+            rb.MoveRotation(rb.rotation + angularVelocity);
+
+            // Clamp rotation if overshot
+            if (Mathf.Abs(angleDiff) < AngularSpeed * Time.deltaTime)
+            {
+                rb.rotation = targetAngle;
+            }
+        }
     }
 }

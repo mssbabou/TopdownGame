@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ammo-rifle-alt 32px_0: -8723620477910471915
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

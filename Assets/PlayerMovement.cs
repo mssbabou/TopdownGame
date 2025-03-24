@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         targetAngle = transform.rotation.eulerAngles.z;
 
         trainMovement = FindFirstObjectByType<TrainMovement>();
-        trainCollider = trainMovement.GetComponent<Collider2D>();
+        if (trainMovement != null) trainCollider = trainMovement.GetComponent<Collider2D>();
     }
 
     void UpdateTrainPhysics()

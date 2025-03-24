@@ -13,16 +13,37 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private TrainMovement trainMovement;
+    private Collider2D trainCollider;
+    private bool isPlayerOnTrain;
+
     private float currentMaxSpeed;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         targetAngle = transform.rotation.eulerAngles.z;
+
+        trainMovement = FindFirstObjectByType<TrainMovement>();
+        trainCollider = trainMovement.GetComponent<Collider2D>();
+    }
+
+    void UpdateTrainPhysics()
+    {
+        if (trainMovement == null ||  trainCollider == null)
+        {
+            isPlayerOnTrain = false;
+            return;
+        }
+
+        isPlayerOnTrain = trainCollider.OverlapPoint(transform.position);
+        trainMovement.SetPlayerOnTrain(isPlayerOnTrain);
     }
 
     void Update()
     {
+        UpdateTrainPhysics();
+
         Vector2 targetVelocity = Vector2.zero;
         bool isMoving = false;
         bool isAiming = false;
@@ -106,8 +127,14 @@ public class PlayerMovement : MonoBehaviour
             RotateTowardsTargetAngle();
         }
 
-        // Apply velocity to the Rigidbody
-        rb.linearVelocity = velocity;
+        if (isPlayerOnTrain)
+        {
+            rb.linearVelocity = velocity + trainMovement.CurrentVelocity;
+        }
+        else 
+        {
+            rb.linearVelocity = velocity;
+        }
     }
 
     // Apply smooth rotation towards target angle at fixed angular speed

@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        isPlayerOnTrain = trainCollider.OverlapPoint(transform.position);
+        isPlayerOnTrain = trainCollider.OverlapPoint(rb.position);
         trainMovement.SetPlayerOnTrain(isPlayerOnTrain);
     }
 
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Rotate towards mouse position when aiming
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 directionToMouse = mousePosition - (Vector2)transform.position;
+            Vector2 directionToMouse = mousePosition - (Vector2)rb.position;
             targetAngle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg + 270;
         }
         else if (isMoving)
@@ -102,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
         if (isPlayerOnTrain)
         {
             Vector2 newVelocity = velocity + trainMovement.CurrentVelocity;
-            rb.MovePosition(transform.position + (Vector3)newVelocity * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + newVelocity * Time.fixedDeltaTime);
         }
         else
         {
-            rb.MovePosition(transform.position + (Vector3)velocity * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
         }
     }
 }

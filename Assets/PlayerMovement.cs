@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        movement.Normalize();
 
         // Check for aiming input
         isAiming = Input.GetMouseButton(1);
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         bool isMoving = movement.magnitude > 0.1f;
 
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         // Normalize and store the target velocity and angle when moving
         if (isMoving)
         {
-            targetVelocity = movement.normalized * currentMaxSpeed;
+            targetVelocity = movement * currentMaxSpeed;
         }
 
         // Smooth acceleration
@@ -73,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Smooth deceleration when not moving
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, Deceleration * Time.fixedDeltaTime);
         }
 

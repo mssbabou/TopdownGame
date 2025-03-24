@@ -7,14 +7,33 @@ public class Gun : MonoBehaviour, IGun
     public GameObject bulletPrefab;
     private int currentAmmo;
     private float nextFireTime;
+    private float reloadEndTime;
+    private bool isReloading = false;
+
+    private int maxAmmo;
 
     private void Start()
     {
         currentAmmo = gunData.clipSize;
+        maxAmmo = gunData.maxAmmo;
+    }
+
+    private void Update()
+    {
+        if (isReloading && Time.time >= reloadEndTime)
+        {
+            isReloading = false;
+            Debug.Log($"Finished reloading {gunData.gunName}");
+        }
     }
 
     public void Fire()
     {
+        if (isReloading)
+        {
+            return;
+        }
+
         if (Time.time < nextFireTime)
         {
             return;
@@ -27,25 +46,69 @@ public class Gun : MonoBehaviour, IGun
 
             for (int i = 0; i < gunData.bulletPerShot; i++)
             {
-
                 var bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
                 var bulletScript = bullet.GetComponent<Bullet>();
                 bullet.transform.Rotate(0, 0, Random.Range(-gunData.accuracy / 2, gunData.accuracy / 2));
                 bulletScript.Init(gunData.damage, gunData.bulletSpeed, LayerMask.GetMask("Player"));
-
-
             }
         }
         else
         {
-            Debug.Log("Out of ammo, reload!");
+            Reload();
         }
     }
 
     public void Reload()
     {
+        if (maxAmmo == 0)
+    {
+        Debug.Log("No ammo left to reload.");
+        return;
+    }
+        if (!isReloading)
+        {
+            isReloading = true;
+            reloadEndTime = Time.time + gunData.reloadTime;
+            Debug.Log($"Reloading {gunData.gunName}");
+            if (currentAmmo < gunData.clipSize) 
+        {
+            int ammoNeeded = gunData.clipSize - currentAmmo;
 
-        currentAmmo = gunData.clipSize;
-        Debug.Log($"Reloading {gunData.gunName}");
+            if (maxAmmo >= ammoNeeded) 
+            {
+                currentAmmo = gunData.clipSize;  
+                maxAmmo -= ammoNeeded;  
+                print($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
+            }
+            else
+            {
+                currentAmmo += maxAmmo;  
+                print($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
+                maxAmmo = 0;
+            }
+        }
+        else
+        {
+            print($"Clip is already full. Current ammo in clip: {currentAmmo}");
+        }
     }
 }
+public float GetReloadProgress()
+{
+    if (!isReloading)
+    {
+        return 0f;
+    }
+    return 1f - (reloadEndTime - Time.time) / gunData.reloadTime;
+}
+        
+ 
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return maxAmmo;
+    }}

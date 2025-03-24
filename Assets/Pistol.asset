@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   gunName: Pistol
-  fireRate: 10
-  accuracy: 10
-  bulletPerShot: 10
+  fireRate: 100
+  accuracy: 1
+  bulletPerShot: 1
   damage: 10
-  clipSize: 10
-  maxAmmo: 10
-  reloadTime: 10
+  clipSize: 6
+  maxAmmo: 12
+  reloadTime: 1
   bulletSpeed: 50

@@ -45,4 +45,20 @@ public class PlayerShoot : MonoBehaviour
             Debug.Log($"Equipped {guns[currentGunIndex].gunData.gunName}");
         }
     }
+
+    private void OnGUI()
+{
+    GUIStyle style = new GUIStyle();
+    style.fontSize = 24;
+    style.normal.textColor = Color.white;
+
+    GUI.Label(new Rect(10, Screen.height - 30, 200, 20), $"Ammo: {guns[currentGunIndex].GetCurrentAmmo()} / {guns[currentGunIndex].GetMaxAmmo()}", style);
+
+    float reloadProgress = guns[currentGunIndex].GetReloadProgress();
+    if (reloadProgress > 0)
+    {
+        GUI.Box(new Rect(10, Screen.height - 60, 200, 20), "");
+        GUI.Box(new Rect(10, Screen.height - 60, 200 * reloadProgress, 20), "", style);
+    }
+}
 }

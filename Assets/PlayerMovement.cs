@@ -4,12 +4,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public float MaxWalkSpeed = 7.5f;
     public float MaxRunSpeed = 11f;
-    public float Acceleration = 250f;
-    public float Deceleration = 200f;
-    public float AngularSpeed = 500f; // Angular speed for smooth rotation
+    public float Acceleration = 10f;
+    public float Deceleration = 10f;
+    public float RotationSpeed = 5f; // Smooth rotation speed
 
+    private Vector2 movement;
     private Vector2 velocity;
     private float targetAngle;
+    private bool isAiming;
 
     private Rigidbody2D rb;
 
@@ -22,15 +24,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        targetAngle = transform.rotation.eulerAngles.z;
-
         trainMovement = FindFirstObjectByType<TrainMovement>();
         if (trainMovement != null) trainCollider = trainMovement.GetComponent<Collider2D>();
     }
 
     void UpdateTrainPhysics()
     {
-        if (trainMovement == null ||  trainCollider == null)
+        if (trainMovement == null || trainCollider == null)
         {
             isPlayerOnTrain = false;
             return;
@@ -44,70 +44,37 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateTrainPhysics();
 
-        Vector2 targetVelocity = Vector2.zero;
-        bool isMoving = false;
-        bool isAiming = false;
-
-        // Handle movement input
-        if (Input.GetKey(KeyCode.D)) // Move Right
-        {
-            targetVelocity.x += 1;
-            isMoving = true;
-        }
-        if (Input.GetKey(KeyCode.A)) // Move Left
-        {
-            targetVelocity.x -= 1;
-            isMoving = true;
-        }
-        if (Input.GetKey(KeyCode.S)) // Move Down
-        {
-            targetVelocity.y -= 1;
-            isMoving = true;
-        }
-        if (Input.GetKey(KeyCode.W)) // Move Up
-        {
-            targetVelocity.y += 1;
-            isMoving = true;
-        }
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
         // Check for aiming input
-        if (Input.GetMouseButton(1))
-        {
-            isAiming = true;
-        }
+        isAiming = Input.GetMouseButton(1);
 
         // Set movement speed based on run or walk
         currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
+    }
+
+    private void FixedUpdate()
+    {
+        bool isMoving = movement.magnitude > 0.1f;
+
+        Vector2 targetVelocity = Vector2.zero;
 
         // Normalize and store the target velocity and angle when moving
         if (isMoving)
         {
-            targetVelocity = targetVelocity.normalized * currentMaxSpeed;
+            targetVelocity = movement.normalized * currentMaxSpeed;
         }
 
-        // Accelerate or decelerate based on movement
+        // Smooth acceleration
         if (isMoving)
         {
-            Vector2 accelDir = (targetVelocity - velocity).normalized;
-            velocity += accelDir * Acceleration * Time.deltaTime;
-
-            if (velocity.magnitude > currentMaxSpeed)
-            {
-                velocity = velocity.normalized * currentMaxSpeed;
-            }
+            velocity = Vector2.MoveTowards(velocity, targetVelocity, Acceleration * Time.fixedDeltaTime);
         }
         else
         {
-            if (velocity.magnitude > 0)
-            {
-                Vector2 decelDir = -velocity.normalized;
-                velocity += decelDir * Deceleration * Time.deltaTime;
-
-                if (velocity.magnitude < 1)
-                {
-                    velocity = Vector2.zero;
-                }
-            }
+            // Smooth deceleration when not moving
+            velocity = Vector2.MoveTowards(velocity, Vector2.zero, Deceleration * Time.fixedDeltaTime);
         }
 
         // Handle rotation
@@ -117,45 +84,29 @@ public class PlayerMovement : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 directionToMouse = mousePosition - (Vector2)transform.position;
             targetAngle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg + 270;
-
-            RotateTowardsTargetAngle();
         }
         else if (isMoving)
         {
             // Rotate towards movement direction when not aiming
             targetAngle = Mathf.Atan2(targetVelocity.y, targetVelocity.x) * Mathf.Rad2Deg + 270;
-            RotateTowardsTargetAngle();
         }
 
+        // Smooth rotation
+        if (Mathf.Abs(Mathf.DeltaAngle(rb.rotation, targetAngle)) > 0.1f)
+        {
+            if (isMoving || isAiming) 
+                rb.rotation = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, RotationSpeed * Time.fixedDeltaTime);
+        }
+
+        // Apply movement based on whether the player is on the train or not
         if (isPlayerOnTrain)
         {
-            rb.linearVelocity = velocity + trainMovement.CurrentVelocity;
+            Vector2 newVelocity = velocity + trainMovement.CurrentVelocity;
+            rb.MovePosition(transform.position + (Vector3)newVelocity * Time.fixedDeltaTime);
         }
-        else 
+        else
         {
-            rb.linearVelocity = velocity;
-        }
-    }
-
-    // Apply smooth rotation towards target angle at fixed angular speed
-    void RotateTowardsTargetAngle()
-    {
-        float currentAngle = transform.rotation.eulerAngles.z;
-        float angleDiff = Mathf.DeltaAngle(currentAngle, targetAngle);
-
-        if (Mathf.Abs(angleDiff) > 0.01f)
-        {
-            float rotationDirection = Mathf.Sign(angleDiff);
-            float angularVelocity = rotationDirection * AngularSpeed * Time.deltaTime;
-
-            // Use Rigidbody2D to rotate smoothly
-            rb.MoveRotation(rb.rotation + angularVelocity);
-
-            // Clamp rotation if overshot
-            if (Mathf.Abs(angleDiff) < AngularSpeed * Time.deltaTime)
-            {
-                rb.rotation = targetAngle;
-            }
+            rb.MovePosition(transform.position + (Vector3)velocity * Time.fixedDeltaTime);
         }
     }
 }

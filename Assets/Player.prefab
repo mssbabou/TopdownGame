@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 5028091126849468582}
   - component: {fileID: 6783245188979796735}
   - component: {fileID: 1643012613203431411}
+  - component: {fileID: 7904430437089232772}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -308,7 +309,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 2.54469
+  m_Mass: 1.5393803
   m_LinearDamping: 0
   m_AngularDamping: 1
   m_GravityScale: 0
@@ -358,7 +359,26 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.9
+  m_Radius: 0.7
+--- !u!114 &7904430437089232772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585814235488968103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae8f97b290cfcd4c930961bd9950545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  Inventory: 
+  PickupRange: 0.8
+  InteractRadius: 0.55
+  InteractOffset: {x: 0, y: 0.8}
 --- !u!1 &7965022213338322588
 GameObject:
   m_ObjectHideFlags: 0

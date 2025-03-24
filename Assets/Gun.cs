@@ -60,55 +60,70 @@ public class Gun : MonoBehaviour, IGun
 
     public void Reload()
     {
+        if (currentAmmo >= gunData.clipSize)
+        {
+            Debug.Log("Clip is already full.");
+            return;
+        }
+
         if (maxAmmo == 0)
-    {
-        Debug.Log("No ammo left to reload.");
-        return;
-    }
+        {
+            Debug.Log("No ammo left to reload.");
+            return;
+        }
+
         if (!isReloading)
         {
             isReloading = true;
             reloadEndTime = Time.time + gunData.reloadTime;
             Debug.Log($"Reloading {gunData.gunName}");
-            if (currentAmmo < gunData.clipSize) 
-        {
+
             int ammoNeeded = gunData.clipSize - currentAmmo;
 
-            if (maxAmmo >= ammoNeeded) 
+            if (maxAmmo >= ammoNeeded)
             {
-                currentAmmo = gunData.clipSize;  
-                maxAmmo -= ammoNeeded;  
-                print($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
+                currentAmmo = gunData.clipSize;
+                maxAmmo -= ammoNeeded;
+                Debug.Log($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
             }
             else
             {
-                currentAmmo += maxAmmo;  
-                print($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
+                currentAmmo += maxAmmo;
+                Debug.Log($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
                 maxAmmo = 0;
             }
         }
-        else
-        {
-            print($"Clip is already full. Current ammo in clip: {currentAmmo}");
-        }
     }
-}
-public float GetReloadProgress()
-{
-    if (!isReloading)
+
+    public float GetReloadProgress()
     {
-        return 0f;
+        if (!isReloading)
+        {
+            return 0f;
+        }
+        return 1f - (reloadEndTime - Time.time) / gunData.reloadTime;
     }
-    return 1f - (reloadEndTime - Time.time) / gunData.reloadTime;
-}
-        
- 
+
     public int GetCurrentAmmo()
     {
         return currentAmmo;
     }
 
+    public bool CanReload()
+    {
+        return currentAmmo < maxAmmo && !isReloading; // Example condition
+    }
+
+    public bool IsReloading()
+    {
+        return isReloading;
+    }
+
     public int GetMaxAmmo()
     {
         return maxAmmo;
-    }}
+    }
+}
+
+
+

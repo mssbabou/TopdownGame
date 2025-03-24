@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TopdownShooterGame.sln"
+    "dotnet.defaultSolution": "TopdownGame.sln"
 }

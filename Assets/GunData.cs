@@ -18,5 +18,5 @@ public class GunData : ScriptableObject
 
     public float bulletSpeed;
 
-    public float isAutomatic;
+    public bool isAutomatic;
 }

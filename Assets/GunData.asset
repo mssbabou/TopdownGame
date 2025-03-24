@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GunData
   m_EditorClassIdentifier: 
   gunName: SMG
-  fireRate: 100
+  fireRate: 10
   accuracy: 4
   bulletPerShot: 1
   damage: 1

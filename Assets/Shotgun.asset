@@ -21,3 +21,4 @@ MonoBehaviour:
   maxAmmo: 1000
   reloadTime: 2
   bulletSpeed: 50
+  isAutomatic: 0

@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
-using Mono.Cecil;
 
 public class PlayerShoot : MonoBehaviour
 {
     public List<Gun> guns = new List<Gun>();
-    private int currentGunIndex;
+    public List<MeleeWeapon> meleeWeapons = new List<MeleeWeapon>();
+    private int currentGunIndex = -1;
+    private int currentMeleeWeaponIndex = -1;
     public Slider reloadSlider;
     public RectTransform sliderTransform;
 
@@ -16,6 +17,10 @@ public class PlayerShoot : MonoBehaviour
         if (guns.Count > 0)
         {
             EquipGun(0);
+        }
+        if (meleeWeapons.Count > 0)
+        {
+            EquipMeleeWeapon(0);
         }
         if (reloadSlider != null)
         {
@@ -28,6 +33,8 @@ public class PlayerShoot : MonoBehaviour
         HandleShooting();
         HandleReloading();
         HandleGunSwitching();
+        HandleMeleeWeaponUsage();
+        HandleCrowbarEquip();
         UpdateReloadProgress();
         UpdateSliderPosition();
     }
@@ -52,16 +59,13 @@ public class PlayerShoot : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            return;
-        }
     }
 
     public bool HasGunWithAmmoType(AmmoType ammoType)
     {
         return guns.Any(gun => gun != null && gun.gunData.ammoType == ammoType);
     }
+
     public void PickupAmmo(AmmoType ammoType, int amount)
     {
         foreach (Gun gun in guns)
@@ -73,6 +77,18 @@ public class PlayerShoot : MonoBehaviour
             }
         }
     }
+
+    private void HandleMeleeWeaponUsage()
+    {
+        if (currentMeleeWeaponIndex >= 0 && currentMeleeWeaponIndex < meleeWeapons.Count)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                meleeWeapons[currentMeleeWeaponIndex].Hit();
+            }
+        }
+    }
+
     private void HandleReloading()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -119,12 +135,18 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-
+    private void UnequipCurrentWeapon()
+    {
+        currentGunIndex = -1;
+        currentMeleeWeaponIndex = -1;
+        Debug.Log("Unequipped current weapon");
+    }
 
     void EquipGun(int index)
     {
         if (index >= 0 && index < guns.Count)
         {
+            UnequipCurrentWeapon();
             currentGunIndex = index;
             Debug.Log($"Equipped {guns[currentGunIndex].gunData.gunName}");
         }
@@ -134,11 +156,48 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
+    void EquipMeleeWeapon(int index)
+    {
+        if (index >= 0 && index < meleeWeapons.Count)
+        {
+            UnequipCurrentWeapon();
+            currentMeleeWeaponIndex = index;
+            Debug.Log($"Equipped {meleeWeapons[currentMeleeWeaponIndex].weaponName}");
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to equip a melee weapon with an invalid index.");
+        }
+    }
+
     public void PickupGun(Gun newGun)
     {
         guns.Add(newGun);
         EquipGun(guns.Count - 1);
         Debug.Log($"Picked up and equipped {newGun.gunData.gunName}");
+    }
+
+    public void PickupMeleeWeapon(MeleeWeapon newWeapon)
+    {
+        meleeWeapons.Add(newWeapon);
+        EquipMeleeWeapon(meleeWeapons.Count - 1);
+        Debug.Log($"Picked up and equipped {newWeapon.weaponName}");
+    }
+
+    private void HandleCrowbarEquip()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            for (int i = 0; i < meleeWeapons.Count; i++)
+            {
+                if (meleeWeapons[i].weaponName == "Crowbar")
+                {
+                    EquipMeleeWeapon(i);
+                    Debug.Log("Equipped Crowbar");
+                    break;
+                }
+            }
+        }
     }
 
     private void OnGUI()

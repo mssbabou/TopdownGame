@@ -16,7 +16,6 @@ public class PickupGun : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            Debug.Log(hit.gameObject.name);
             Gun gun = hit.GetComponent<Gun>();
             if (gun != null)
             {
@@ -30,6 +29,22 @@ public class PickupGun : MonoBehaviour
                 continue;
             }
 
+            MeleeWeapon meleeWeapon = hit.GetComponent<MeleeWeapon>();
+            Debug.Log("Picked up melee weapon");
+            if (meleeWeapon != null)
+            {
+                PlayerShoot playerShoot = GetComponent<PlayerShoot>();
+                if (playerShoot != null)
+                {
+                    Debug.Log("Picked up melee weapon");
+                    playerShoot.PickupMeleeWeapon(meleeWeapon);
+
+
+                    meleeWeapon.gameObject.GetComponent<Collider2D>().enabled = false;
+                    meleeWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                }
+                continue;
+            }
 
             if (hit.CompareTag("SHOTGUN Ammo") || hit.CompareTag("SMG Ammo") || hit.CompareTag("Pistol Ammo"))
             {

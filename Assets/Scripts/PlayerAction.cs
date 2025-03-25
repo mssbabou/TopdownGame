@@ -1,9 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    public SpriteRenderer PlayerSprite;
+    public Color NormalColor = Color.white;
+    public Color DamagedColor = Color.red;
+    public float DamagedColorTime = 0.1f;
+
     public LayerMask ItemLayer;
 
     public List<ItemType> Inventory;
@@ -12,6 +18,15 @@ public class PlayerAction : MonoBehaviour
 
     public float InteractRadius = 0.5f;
     public Vector2 InteractOffset = Vector2.up;
+
+    private Health health;
+
+    void Start()
+    {
+
+        health = GetComponent<Health>();
+        health.onTakeDamage.AddListener(TakeDamage);
+    }
 
     // Update is called once per frame
     void Update()
@@ -47,6 +62,18 @@ public class PlayerAction : MonoBehaviour
                 Destroy(hit.gameObject);
             }
         }
+    }
+
+    private void TakeDamage()
+    {
+        StartCoroutine(TakeDamageColorChange());
+    }
+
+    private IEnumerator TakeDamageColorChange()
+    {
+        PlayerSprite.color = DamagedColor;
+        yield return new WaitForSeconds(DamagedColorTime);
+        PlayerSprite.color = NormalColor;
     }
 
     private void OnDrawGizmos()

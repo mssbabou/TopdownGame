@@ -140,6 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5997e303ded824255bcc0fdda3af0045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NormalColor: {r: 1, g: 1, b: 1, a: 1}
+  DamagedColor: {r: 1, g: 0, b: 0, a: 0.5019608}
+  DamagedColorTime: 0.05
   player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
@@ -174,7 +177,10 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
-  onHealthChanged:
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
     m_PersistentCalls:
       m_Calls: []
 --- !u!61 &900028241055585655

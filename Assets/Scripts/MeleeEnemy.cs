@@ -1,9 +1,14 @@
+using System.Collections;
 using Pathfinding;
 using UnityEngine;
 
 public class MeleeEnemy : MonoBehaviour
 {
     private Health health;
+
+    public Color NormalColor = Color.white;
+    public Color DamagedColor = Color.red;
+    public float DamagedColorTime = 0.1f;
 
     // A* pathfinding interface
     public IAstarAI Navigation;
@@ -26,8 +31,8 @@ public class MeleeEnemy : MonoBehaviour
     // The damage the enemy deals
     public float damageAmount = 10f;
 
-    // We’ll use an overlap circle for the “hitbox”
-    // 1) Create a child object called “AttackPoint” under your enemy and
+    // Weï¿½ll use an overlap circle for the ï¿½hitboxï¿½
+    // 1) Create a child object called ï¿½AttackPointï¿½ under your enemy and
     //    position it roughly where the weapon or contact point should be.
     // 2) Assign it in the Inspector.
     public Transform attackPoint;
@@ -39,11 +44,14 @@ public class MeleeEnemy : MonoBehaviour
     public float attackRange = 1f;
     public bool playerInSightRange, playerInAttackRange;
 
+    private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         // Health & onDeath
         health = GetComponent<Health>();
         health.onDeath.AddListener(Die);
+        health.onTakeDamage.AddListener(TakeDamage);
 
         // A* Pathfinding
         Navigation = GetComponent<IAstarAI>();
@@ -54,6 +62,8 @@ public class MeleeEnemy : MonoBehaviour
 
         // Find player by tag
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Update()
@@ -109,7 +119,7 @@ public class MeleeEnemy : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
 
-        // Only attack if we haven’t attacked recently
+        // Only attack if we havenï¿½t attacked recently
         if (!alreadyAttacked)
         {
             Debug.Log("Enemy is Attacking!");
@@ -149,6 +159,18 @@ public class MeleeEnemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void TakeDamage()
+    {
+        StartCoroutine(TakeDamageColorChange());
+    }
+
+    private IEnumerator TakeDamageColorChange()
+    {
+        spriteRenderer.color = DamagedColor;
+        yield return new WaitForSeconds(DamagedColorTime);
+        spriteRenderer.color = NormalColor;
+    }
+
     private void SetDestination(Vector2 destination)
     {
         if (Navigation != null)
@@ -167,7 +189,7 @@ public class MeleeEnemy : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
 
-        // The “hitbox” for the actual melee attack
+        // The ï¿½hitboxï¿½ for the actual melee attack
         if (attackPoint != null)
         {
             Gizmos.color = Color.blue;

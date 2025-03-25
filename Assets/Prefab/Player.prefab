@@ -710,7 +710,10 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
-  onHealthChanged:
+  onTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
     m_PersistentCalls:
       m_Calls: []
 --- !u!50 &6783245188979796735
@@ -788,6 +791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae8f97b290cfcd4c930961bd9950545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerSprite: {fileID: 8756873480072529450}
+  NormalColor: {r: 1, g: 1, b: 1, a: 1}
+  DamagedColor: {r: 1, g: 0, b: 0, a: 1}
+  DamagedColorTime: 0.1
   ItemLayer:
     serializedVersion: 2
     m_Bits: 128

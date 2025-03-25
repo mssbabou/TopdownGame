@@ -9,7 +9,8 @@ public class Health : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent onDeath;
-    public UnityEvent onHealthChanged;
+    public UnityEvent onTakeDamage;
+    public UnityEvent onHeal;
 
     // Start is called before the first frame update
     private void Start()
@@ -25,7 +26,7 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth); // Ensure health doesn't go below 0
 
         // Trigger health change event
-        onHealthChanged.Invoke();
+        onTakeDamage.Invoke();
 
         // Check if health reaches zero and trigger death event
         if (CurrentHealth == 0)
@@ -41,7 +42,7 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth); // Ensure health doesn't exceed maxHealth
 
         // Trigger health change event
-        onHealthChanged.Invoke();
+        onHeal.Invoke();
     }
 
     // For debugging purposes (displaying health in the Inspector)

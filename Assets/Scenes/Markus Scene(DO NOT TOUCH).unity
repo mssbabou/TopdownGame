@@ -830,7 +830,7 @@ MonoBehaviour:
     rid: 3226975838365286400
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 2076512541}
+    m_Mesh: {fileID: 2101705119}
     m_LocalBounds:
       m_Center: {x: 0, y: 0, z: 0}
       m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -1276,7 +1276,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &2076512541
+--- !u!43 &2101705119
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1451,11 +1451,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1195608582453537133, guid: 0eca62401073244638b7b77ac3499d5b,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1195608582453537133, guid: 0eca62401073244638b7b77ac3499d5b,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
       objectReference: {fileID: 0}
@@ -1504,6 +1499,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3965888390392538527, guid: 0eca62401073244638b7b77ac3499d5b,
+        type: 3}
+      propertyPath: m_IsCustomRangeActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4784099716433000830, guid: 0eca62401073244638b7b77ac3499d5b,
         type: 3}
       propertyPath: m_Name
@@ -1534,11 +1534,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2953811512289298691, guid: a8b8c075d74b44331a9f38e17acd2a25,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2953811512289298691, guid: a8b8c075d74b44331a9f38e17acd2a25,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2010,6 +2005,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8559651238863267330, guid: 7e81f89da8efe4d20b7b91120b5a45d1,
         type: 3}
+      propertyPath: OnActivation.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559651238863267330, guid: 7e81f89da8efe4d20b7b91120b5a45d1,
+        type: 3}
       propertyPath: OnActivation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 974398237}
@@ -2119,6 +2119,41 @@ PrefabInstance:
       propertyPath: 'TrainStops.Array.data[2]'
       value: 
       objectReference: {fileID: 1972360871}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 974398237}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HorizontalDoor, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 537724867813766231, guid: 913ba64813f5f424da35c3764c70f527,
+        type: 3}
+      propertyPath: OnArriveAtPlayerLeaveStop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6676254646194761436, guid: 913ba64813f5f424da35c3764c70f527,
         type: 3}
       propertyPath: m_Name

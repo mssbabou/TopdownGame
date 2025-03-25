@@ -35,7 +35,7 @@ public class HorizontalDoor : MonoBehaviour
         currentCoroutine = StartCoroutine(MoveDoor(Vector3.zero));
         IsOpen = false;
 
-        doorCollider.enabled = false;
+        doorCollider.enabled = true;
     }
 
     public void Toggle()

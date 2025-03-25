@@ -91,4 +91,5 @@ public enum ItemType
     RedKeycard,
     GreenKeycard,
     BlueKeycard,
+    FlashLight,
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickupGun : MonoBehaviour
@@ -9,7 +10,7 @@ public class PickupGun : MonoBehaviour
     {
         CheckPickup();
     }
-   private void CheckPickup()
+    private void CheckPickup()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, PickupRange, ItemLayer);
 
@@ -17,15 +18,16 @@ public class PickupGun : MonoBehaviour
         {
             Debug.Log(hit.gameObject.name);
             Gun gun = hit.GetComponent<Gun>();
-                if (gun != null)
+            if (gun != null)
+            {
+                PlayerShoot playerShoot = GetComponent<PlayerShoot>();
+                if (playerShoot != null)
                 {
-                    PlayerShoot playerShoot = GetComponent<PlayerShoot>();
-                    if (playerShoot != null)
-                    {
-                        playerShoot.PickupGun(gun);
-                        Destroy(hit.gameObject); // Destroy the gun object after pickup
-                    }
+                    playerShoot.PickupGun(gun);
+                    gun.gameObject.GetComponent<Collider2D>().enabled = false;
+                    gun.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 }
+            }
         }
     }
 }

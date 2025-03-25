@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Assaut-rifle-2-scoped_0: -4608979252919093417
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

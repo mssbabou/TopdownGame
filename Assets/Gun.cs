@@ -7,10 +7,14 @@ public class Gun : MonoBehaviour, IGun
     public GameObject bulletPrefab;
     private int currentAmmo;
     private float nextFireTime;
-    private float reloadEndTime;
     private bool isReloading = false;
-
     private int maxAmmo;
+    private float reloadEndTime;
+
+    public bool IsAutomatic()
+    {
+        return gunData.isAutomatic;
+    }
 
     private void Start()
     {
@@ -22,15 +26,16 @@ public class Gun : MonoBehaviour, IGun
     {
         if (isReloading && Time.time >= reloadEndTime)
         {
-            isReloading = false;
-            Debug.Log($"Finished reloading {gunData.gunName}");
+            FinishReloading();
         }
+
     }
 
     public void Fire()
     {
         if (isReloading)
         {
+            Debug.Log("Cannot fire while reloading.");
             return;
         }
 
@@ -77,22 +82,28 @@ public class Gun : MonoBehaviour, IGun
             isReloading = true;
             reloadEndTime = Time.time + gunData.reloadTime;
             Debug.Log($"Reloading {gunData.gunName}");
-
-            int ammoNeeded = gunData.clipSize - currentAmmo;
-
-            if (maxAmmo >= ammoNeeded)
-            {
-                currentAmmo = gunData.clipSize;
-                maxAmmo -= ammoNeeded;
-                Debug.Log($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
-            }
-            else
-            {
-                currentAmmo += maxAmmo;
-                Debug.Log($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
-                maxAmmo = 0;
-            }
         }
+    }
+
+    private void FinishReloading()
+    {
+        isReloading = false;
+        int ammoNeeded = gunData.clipSize - currentAmmo;
+
+        if (maxAmmo >= ammoNeeded)
+        {
+            currentAmmo = gunData.clipSize;
+            maxAmmo -= ammoNeeded;
+            Debug.Log($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
+        }
+        else
+        {
+            currentAmmo += maxAmmo;
+            Debug.Log($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
+            maxAmmo = 0;
+        }
+
+        Debug.Log($"Finished reloading {gunData.gunName}");
     }
 
     public float GetReloadProgress()
@@ -111,7 +122,7 @@ public class Gun : MonoBehaviour, IGun
 
     public bool CanReload()
     {
-        return currentAmmo < maxAmmo && !isReloading; // Example condition
+        return currentAmmo < maxAmmo && !isReloading;
     }
 
     public bool IsReloading()
@@ -124,6 +135,3 @@ public class Gun : MonoBehaviour, IGun
         return maxAmmo;
     }
 }
-
-
-

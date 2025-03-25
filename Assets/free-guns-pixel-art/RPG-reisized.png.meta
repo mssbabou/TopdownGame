@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RPG-reisized_0: 3676076678104264945
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

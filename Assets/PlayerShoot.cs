@@ -1,21 +1,23 @@
 using UnityEngine;
-using UnityEngine.UI; // Add this to use the Slider class
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
+using Mono.Cecil;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public Gun[] guns;
+    public List<Gun> guns = new List<Gun>();
     private int currentGunIndex;
-    public Slider reloadSlider; // Add this line
-    private bool isReloading = false; // Add this line
+    public Slider reloadSlider;
     public RectTransform sliderTransform;
 
     void Start()
     {
-        if (guns.Length > 0)
+        if (guns.Count > 0)
         {
             EquipGun(0);
         }
-        reloadSlider.gameObject.SetActive(false); // Hide the slider initially
+        reloadSlider.gameObject.SetActive(false);
     }
 
     void Update()
@@ -24,14 +26,32 @@ public class PlayerShoot : MonoBehaviour
         HandleReloading();
         HandleGunSwitching();
         UpdateReloadProgress();
-        UpdateSliderPosition(); 
+        UpdateSliderPosition();
     }
 
     private void HandleShooting()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (currentGunIndex >= 0 && currentGunIndex < guns.Count)
         {
-            guns[currentGunIndex].Fire();
+            Gun currentGun = guns[currentGunIndex];
+            if (currentGun.IsAutomatic() == true)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    currentGun.Fire();
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    currentGun.Fire();
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No gun equipped.");
         }
     }
 
@@ -40,34 +60,31 @@ public class PlayerShoot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             guns[currentGunIndex].Reload();
-
         }
     }
 
     private void UpdateSliderPosition()
     {
-        // Update the slider position to be below the player
-         Vector3 playerPosition = transform.position;
+        Vector3 playerPosition = transform.position;
         sliderTransform.position = new Vector3(playerPosition.x, playerPosition.y - 1.0f, playerPosition.z);
         sliderTransform.rotation = Quaternion.identity;
     }
 
     private void HandleGunSwitching()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        for (int i = 0; i < guns.Count; i++)
         {
-            EquipGun(0);
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                EquipGun(i);
+                reloadSlider.gameObject.SetActive(false);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && guns.Length > 1)
-        {
-            EquipGun(1);
-        }
-        // Add more keys for additional guns if needed
     }
 
     private void UpdateReloadProgress()
     {
-        if (guns[currentGunIndex].IsReloading())
+        if (currentGunIndex >= 0 && currentGunIndex < guns.Count && guns[currentGunIndex].IsReloading())
         {
             reloadSlider.gameObject.SetActive(true);
 
@@ -76,42 +93,42 @@ public class PlayerShoot : MonoBehaviour
 
             if (reloadProgress >= 0.95f)
             {
-                isReloading = false; // Reset the flag when reloading is complete
-                reloadSlider.gameObject.SetActive(false); // Hide the slider
+                reloadSlider.gameObject.SetActive(false);
             }
         }
     }
 
     void EquipGun(int index)
     {
-        if (index >= 0 && index < guns.Length)
+        if (index >= 0 && index < guns.Count)
         {
             currentGunIndex = index;
-            // Optionally, you can add logic to visually equip the gun, e.g., enabling/disabling gun GameObjects
             Debug.Log($"Equipped {guns[currentGunIndex].gunData.gunName}");
         }
+        else
+        {
+            Debug.LogWarning("Attempted to equip a gun with an invalid index.");
+        }
     }
+
     public void PickupGun(Gun newGun)
     {
-        for (int i = 0; i < guns.Length; i++)
-        {
-            if (guns[i] == null)
-            {
-                guns[i] = newGun;
-                EquipGun(i);
-                Debug.Log($"Picked up and equipped {newGun.gunData.gunName}");
-                return;
-            }
-        }
-        Debug.Log("No available slots to pick up the gun.");
+        guns.Add(newGun);
+        EquipGun(guns.Count - 1);
+        Debug.Log($"Picked up and equipped {newGun.gunData.gunName}");
     }
 
     private void OnGUI()
     {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 24;
-        style.normal.textColor = Color.white;
+        if (guns.Count > 0 && currentGunIndex >= 0 && currentGunIndex < guns.Count)
+        {
+            GUIStyle style = new GUIStyle()
+            {
+                fontSize = 24,
+                normal = new GUIStyleState() { textColor = Color.white }
+            };
 
-        GUI.Label(new Rect(10, Screen.height - 30, 200, 20), $"Ammo: {guns[currentGunIndex].GetCurrentAmmo()} / {guns[currentGunIndex].GetMaxAmmo()}", style);
+            GUI.Label(new Rect(10, Screen.height - 30, 200, 20), $"Ammo: {guns[currentGunIndex]?.GetCurrentAmmo()} / {guns[currentGunIndex]?.GetMaxAmmo()}", style);
+        }
     }
 }

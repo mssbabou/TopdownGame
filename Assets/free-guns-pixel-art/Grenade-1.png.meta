@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Grenade-1_0: 2181467101886137834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

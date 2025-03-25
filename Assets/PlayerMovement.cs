@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        isPlayerOnTrain = trainCollider.OverlapPoint(transform.position);
+        isPlayerOnTrain = trainCollider.OverlapPoint(rb.position);
         trainMovement.SetPlayerOnTrain(isPlayerOnTrain);
     }
 
@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        movement.Normalize();
 
         // Check for aiming input
         isAiming = Input.GetMouseButton(1);
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         bool isMoving = movement.magnitude > 0.1f;
 
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         // Normalize and store the target velocity and angle when moving
         if (isMoving)
         {
-            targetVelocity = movement.normalized * currentMaxSpeed;
+            targetVelocity = movement * currentMaxSpeed;
         }
 
         // Smooth acceleration
@@ -73,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Smooth deceleration when not moving
             velocity = Vector2.MoveTowards(velocity, Vector2.zero, Deceleration * Time.fixedDeltaTime);
         }
 
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Rotate towards mouse position when aiming
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 directionToMouse = mousePosition - (Vector2)transform.position;
+            Vector2 directionToMouse = mousePosition - (Vector2)rb.position;
             targetAngle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg + 270;
         }
         else if (isMoving)
@@ -102,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
         if (isPlayerOnTrain)
         {
             Vector2 newVelocity = velocity + trainMovement.CurrentVelocity;
-            rb.MovePosition(transform.position + (Vector3)newVelocity * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + newVelocity * Time.fixedDeltaTime);
         }
         else
         {
-            rb.MovePosition(transform.position + (Vector3)velocity * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
         }
     }
 }

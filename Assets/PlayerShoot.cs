@@ -65,6 +65,9 @@ public class PlayerShoot : MonoBehaviour
 
     private void UpdateSliderPosition()
     {
+        if (sliderTransform == null) return;
+
+        // Update the slider position to be below the player
         Vector3 playerPosition = transform.position;
         sliderTransform.position = new Vector3(playerPosition.x, playerPosition.y - 1.0f, playerPosition.z);
         sliderTransform.rotation = Quaternion.identity;

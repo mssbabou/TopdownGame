@@ -33,6 +33,18 @@ public class HorizontalDoor : MonoBehaviour
         IsOpen = false;
     }
 
+    public void Toggle()
+    {
+        if (IsOpen)
+        {
+            Close();
+        }
+        else 
+        {
+            Open();
+        }
+    }
+
     private IEnumerator MoveDoor(Vector3 targetPosition)
     {
         Vector3 startPos = doorTransform.localPosition;

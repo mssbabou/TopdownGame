@@ -4,6 +4,7 @@ using System.Collections;
 public class HorizontalDoor : MonoBehaviour
 {
     public Transform doorTransform;
+    public Collider2D doorCollider;
     public float MoveOffset = 3f;
     public float Speed = 2f;
 
@@ -20,6 +21,8 @@ public class HorizontalDoor : MonoBehaviour
 
         currentCoroutine = StartCoroutine(MoveDoor(Vector3.up * MoveOffset));
         IsOpen = true;
+
+        doorCollider.enabled = false;
     }
 
     public void Close()
@@ -31,6 +34,8 @@ public class HorizontalDoor : MonoBehaviour
 
         currentCoroutine = StartCoroutine(MoveDoor(Vector3.zero));
         IsOpen = false;
+
+        doorCollider.enabled = false;
     }
 
     public void Toggle()

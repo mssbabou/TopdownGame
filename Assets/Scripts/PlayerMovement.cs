@@ -1,12 +1,18 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject StaminaSliderGameobject;
+
     public float MaxWalkSpeed = 7.5f;
     public float MaxRunSpeed = 11f;
     public float Acceleration = 10f;
     public float Deceleration = 10f;
     public float RotationSpeed = 5f; // Smooth rotation speed
+
+    public float MaxStamina = 5f; // In Seconds
+    public float StaminaRegen = 1f; // In Seconds gained per Second
 
     private Vector2 movement;
     private Vector2 velocity;
@@ -15,17 +21,30 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private Slider staminaSlider;
+
     private TrainMovement trainMovement;
     private Collider2D trainCollider;
     private bool isPlayerOnTrain;
 
     private float currentMaxSpeed;
+    private float currentStamina;
+    private bool isExhausted;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         trainMovement = FindFirstObjectByType<TrainMovement>();
+
         if (trainMovement != null) trainCollider = trainMovement.GetComponent<Collider2D>();
+        if (StaminaSliderGameobject != null) 
+        {
+            staminaSlider = StaminaSliderGameobject.GetComponent<Slider>();
+            StaminaSliderGameobject.SetActive(false);
+        }
+
+        currentStamina = MaxStamina;
     }
 
     void UpdateTrainPhysics()
@@ -52,7 +71,58 @@ public class PlayerMovement : MonoBehaviour
         isAiming = Input.GetMouseButton(1);
 
         // Set movement speed based on run or walk
-        currentMaxSpeed = Input.GetKey(KeyCode.LeftShift) ? MaxRunSpeed : MaxWalkSpeed;
+        if (isExhausted)
+        {
+            // Force walking and regenerate stamina.
+            currentMaxSpeed = MaxWalkSpeed;
+            currentStamina += Time.deltaTime;
+
+            // Only allow running again when stamina is completely full.
+            if (currentStamina >= MaxStamina)
+            {
+                currentStamina = MaxStamina;  // Ensure it doesn't exceed the max.
+                isExhausted = false;
+            }
+        }
+        else
+        {
+            // If Left Shift is held and there's enough stamina, run.
+            if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0.1f)
+            {
+                currentMaxSpeed = MaxRunSpeed;
+                currentStamina -= Time.deltaTime;
+
+                // If stamina depletes to the threshold, mark as exhausted.
+                if (currentStamina <= 0.1f)
+                {
+                    isExhausted = true;
+                }
+            }
+            else
+            {
+                // Otherwise, walk and regenerate stamina.
+                currentMaxSpeed = MaxWalkSpeed;
+                currentStamina += Time.deltaTime;
+            }
+        }
+
+        // Clamp the stamina to ensure it remains between 0 and MaxStamina.
+        currentStamina = Mathf.Clamp(currentStamina, 0, MaxStamina);
+
+        if (StaminaSliderGameobject != null && staminaSlider != null)
+        {
+            if (currentStamina >= MaxStamina)
+            {
+                StaminaSliderGameobject.SetActive(false);
+            }
+            else
+            {
+                StaminaSliderGameobject.SetActive(true);
+                StaminaSliderGameobject.transform.position = new Vector3(transform.position.x, transform.position.y - 1.3f, transform.position.z);
+                StaminaSliderGameobject.transform.rotation = Quaternion.identity;
+                staminaSlider.value = currentStamina / MaxStamina;
+            }
+        }
     }
 
     void FixedUpdate()

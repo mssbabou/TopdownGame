@@ -16,7 +16,21 @@ public class GunData : ScriptableObject
     public int maxAmmo;
     public float reloadTime;
 
+    public AmmoType ammoType;
+
     public float bulletSpeed;
 
     public bool isAutomatic;
+
+    public AudioClip fireSound;
+
+    public AudioClip ReloadSound;
+
+}
+
+public enum AmmoType
+{
+    SMG,
+    Pistol,
+    Shotgun
 }

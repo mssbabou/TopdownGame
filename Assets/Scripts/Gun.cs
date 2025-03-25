@@ -10,6 +10,9 @@ public class Gun : MonoBehaviour, IGun
     private bool isReloading = false;
     private int maxAmmo;
     private float reloadEndTime;
+    private AudioSource audioSource;
+
+    public AudioClip EmptyMag;
 
     public bool IsAutomatic()
     {
@@ -20,6 +23,7 @@ public class Gun : MonoBehaviour, IGun
     {
         currentAmmo = gunData.clipSize;
         maxAmmo = gunData.maxAmmo;
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void Update()
@@ -35,7 +39,6 @@ public class Gun : MonoBehaviour, IGun
     {
         if (isReloading)
         {
-            Debug.Log("Cannot fire while reloading.");
             return;
         }
 
@@ -46,6 +49,7 @@ public class Gun : MonoBehaviour, IGun
 
         if (currentAmmo > 0)
         {
+
             currentAmmo--;
             nextFireTime = Time.time + 1f / gunData.fireRate;
 
@@ -56,10 +60,18 @@ public class Gun : MonoBehaviour, IGun
                 bullet.transform.Rotate(0, 0, Random.Range(-gunData.accuracy / 2, gunData.accuracy / 2));
                 bulletScript.Init(gunData.damage, gunData.bulletSpeed, LayerMask.GetMask("Player"));
             }
+            if (gunData.fireSound != null)
+            {
+                audioSource.PlayOneShot(gunData.fireSound);
+            }
         }
         else
         {
             Reload();
+            if (EmptyMag != null)
+            {
+                audioSource.PlayOneShot(EmptyMag);
+            }
         }
     }
 
@@ -67,21 +79,24 @@ public class Gun : MonoBehaviour, IGun
     {
         if (currentAmmo >= gunData.clipSize)
         {
-            Debug.Log("Clip is already full.");
+
             return;
         }
 
         if (maxAmmo == 0)
         {
-            Debug.Log("No ammo left to reload.");
+
             return;
         }
 
         if (!isReloading)
         {
             isReloading = true;
+            if (gunData.ReloadSound != null)
+            {
+                audioSource.PlayOneShot(gunData.ReloadSound);
+            }
             reloadEndTime = Time.time + gunData.reloadTime;
-            Debug.Log($"Reloading {gunData.gunName}");
         }
     }
 
@@ -94,16 +109,19 @@ public class Gun : MonoBehaviour, IGun
         {
             currentAmmo = gunData.clipSize;
             maxAmmo -= ammoNeeded;
-            Debug.Log($"Reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: {maxAmmo}");
+
         }
         else
         {
             currentAmmo += maxAmmo;
-            Debug.Log($"Partially reloaded. Current ammo in clip: {currentAmmo}, Total ammo left: 0");
+
             maxAmmo = 0;
         }
-
-        Debug.Log($"Finished reloading {gunData.gunName}");
+    }
+    public void AddAmmo(int amount)
+    {
+        maxAmmo += amount;
+        Debug.Log($"Added {amount} ammo to {gunData.gunName}. Total ammo: {maxAmmo}");
     }
 
     public float GetReloadProgress()

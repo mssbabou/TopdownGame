@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e818b85cd35ec0a4caa1645e575f0d31, type: 3}
-  m_Name: GunData
+  m_Name: Smg
   m_EditorClassIdentifier: 
   gunName: SMG
   fireRate: 10
@@ -20,5 +20,8 @@ MonoBehaviour:
   clipSize: 30
   maxAmmo: 90
   reloadTime: 2
-  bulletSpeed: 10
+  ammoType: 0
+  bulletSpeed: 50
   isAutomatic: 1
+  fireSound: {fileID: 8300000, guid: 49b5f1f9d9ed9264e88c8629e0f76f5c, type: 3}
+  ReloadSound: {fileID: 0}

@@ -54,10 +54,25 @@ public class PlayerShoot : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No gun equipped.");
+            return;
         }
     }
 
+    public bool HasGunWithAmmoType(AmmoType ammoType)
+    {
+        return guns.Any(gun => gun != null && gun.gunData.ammoType == ammoType);
+    }
+    public void PickupAmmo(AmmoType ammoType, int amount)
+    {
+        foreach (Gun gun in guns)
+        {
+            if (gun != null && gun.gunData.ammoType == ammoType)
+            {
+                gun.AddAmmo(amount);
+                Debug.Log($"Picked up {amount} {ammoType} ammo for {gun.gunData.gunName}");
+            }
+        }
+    }
     private void HandleReloading()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -103,6 +118,8 @@ public class PlayerShoot : MonoBehaviour
             }
         }
     }
+
+
 
     void EquipGun(int index)
     {

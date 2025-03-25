@@ -261,7 +261,7 @@ MonoBehaviour:
   MaxRunSpeed: 11
   Acceleration: 150
   Deceleration: 100
-  AngularSpeed: 5000
+  RotationSpeed: 1000
 --- !u!114 &7816851769706321257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +277,8 @@ MonoBehaviour:
   guns:
   - {fileID: 4412704294307702432}
   - {fileID: 4146965261696607589}
+  reloadSlider: {fileID: 0}
+  sliderTransform: {fileID: 0}
 --- !u!114 &5028091126849468582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +325,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &1643012613203431411
 CircleCollider2D:
   m_ObjectHideFlags: 0

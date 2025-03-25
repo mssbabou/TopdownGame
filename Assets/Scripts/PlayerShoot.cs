@@ -17,7 +17,10 @@ public class PlayerShoot : MonoBehaviour
         {
             EquipGun(0);
         }
-        reloadSlider.gameObject.SetActive(false);
+        if (reloadSlider != null)
+        {
+            reloadSlider.gameObject.SetActive(false);
+        }
     }
 
     void Update()

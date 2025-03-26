@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   gunName: Shotgun
-  fireRate: 12
+  fireRate: 1
   accuracy: 15
   bulletPerShot: 15
-  damage: 15
-  clipSize: 15
+  damage: 1
+  clipSize: 7
   maxAmmo: 1000
-  reloadTime: 2
+  reloadTime: 4
+  ammoType: 2
   bulletSpeed: 50
   isAutomatic: 0
+  fireSound: {fileID: 8300000, guid: 49b5f1f9d9ed9264e88c8629e0f76f5c, type: 3}
+  ReloadSound: {fileID: 8300000, guid: 24b9fe4143abfbe4c9a46e15ee764b0c, type: 3}

@@ -20,5 +20,8 @@ MonoBehaviour:
   clipSize: 6
   maxAmmo: 12
   reloadTime: 1
+  ammoType: 1
   bulletSpeed: 50
   isAutomatic: 0
+  fireSound: {fileID: 0}
+  ReloadSound: {fileID: 0}

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Item
+  - Gun
+  - SMG Ammo
+  - SHOTGUN Ammo
+  - Pistol Ammo
+  - Crowbar
   layers:
   - Default
   - TransparentFX
@@ -15,7 +20,7 @@ TagManager:
   - Enemy
   - Item
   - NoObstacle
-  - 
+  - Bullet
   - 
   - 
   - 

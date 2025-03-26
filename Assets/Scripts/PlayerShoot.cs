@@ -181,6 +181,7 @@ public class PlayerShoot : MonoBehaviour
     {
         meleeWeapons.Add(newWeapon);
         EquipMeleeWeapon(meleeWeapons.Count - 1);
+
         Debug.Log($"Picked up and equipped {newWeapon.weaponName}");
     }
 

@@ -142,3 +142,4 @@ MonoBehaviour:
   shootPoint: {fileID: 0}
   bulletPrefab: {fileID: 128168255057807245, guid: bf4702f91d8864699ae823e25f507c41,
     type: 3}
+  EmptyMag: {fileID: 8300000, guid: 0812ca2f1323c264c879a2a10405468f, type: 3}

@@ -121,7 +121,6 @@ public class Gun : MonoBehaviour, IGun
     public void AddAmmo(int amount)
     {
         maxAmmo += amount;
-        Debug.Log($"Added {amount} ammo to {gunData.gunName}. Total ammo: {maxAmmo}");
     }
 
     public float GetReloadProgress()

@@ -73,7 +73,6 @@ public class PlayerShoot : MonoBehaviour
             if (gun != null && gun.gunData.ammoType == ammoType)
             {
                 gun.AddAmmo(amount);
-                Debug.Log($"Picked up {amount} {ammoType} ammo for {gun.gunData.gunName}");
             }
         }
     }
@@ -139,7 +138,6 @@ public class PlayerShoot : MonoBehaviour
     {
         currentGunIndex = -1;
         currentMeleeWeaponIndex = -1;
-        Debug.Log("Unequipped current weapon");
     }
 
     void EquipGun(int index)
@@ -148,7 +146,7 @@ public class PlayerShoot : MonoBehaviour
         {
             UnequipCurrentWeapon();
             currentGunIndex = index;
-            Debug.Log($"Equipped {guns[currentGunIndex].gunData.gunName}");
+
         }
         else
         {
@@ -162,7 +160,7 @@ public class PlayerShoot : MonoBehaviour
         {
             UnequipCurrentWeapon();
             currentMeleeWeaponIndex = index;
-            Debug.Log($"Equipped {meleeWeapons[currentMeleeWeaponIndex].weaponName}");
+
         }
         else
         {
@@ -174,7 +172,7 @@ public class PlayerShoot : MonoBehaviour
     {
         guns.Add(newGun);
         EquipGun(guns.Count - 1);
-        Debug.Log($"Picked up and equipped {newGun.gunData.gunName}");
+
     }
 
     public void PickupMeleeWeapon(MeleeWeapon newWeapon)
@@ -182,7 +180,7 @@ public class PlayerShoot : MonoBehaviour
         meleeWeapons.Add(newWeapon);
         EquipMeleeWeapon(meleeWeapons.Count - 1);
 
-        Debug.Log($"Picked up and equipped {newWeapon.weaponName}");
+
     }
 
     private void HandleCrowbarEquip()
@@ -194,7 +192,7 @@ public class PlayerShoot : MonoBehaviour
                 if (meleeWeapons[i].weaponName == "Crowbar")
                 {
                     EquipMeleeWeapon(i);
-                    Debug.Log("Equipped Crowbar");
+
                     break;
                 }
             }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c4103f5e87d34bb4d94d0c5025a64f7a
+guid: 73dd38ee102234f4fb67cfe3d461711b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4243994440539988587
-    second: Red Keycard_0
+      213: 7386205789061782688
+    second: Red Keycard Scanner_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Red Keycard_0
+      name: Red Keycard Scanner_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 8
-        width: 24
-        height: 16
+        x: 2
+        y: 0
+        width: 25
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 59d91eeba8d4a15c0800000000000000
-      internalID: -4243994440539988587
+      spriteID: 0ac16f60803118660800000000000000
+      internalID: 7386205789061782688
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Red Keycard_0: -4243994440539988587
+      Red Keycard Scanner_0: 7386205789061782688
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1af694815faa24e438062616cfcd8e58
+guid: 6f39bc69c3322c34e81d01ad1129b768
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Green Keycard Scanner
+  - name: Red Keycard Scanner
     originalName: 
     pivot: {x: 0.5652174, y: 0}
     alignment: 9
@@ -135,7 +135,7 @@ ScriptedImporter:
       y: 4
       width: 23
       height: 32
-    spriteID: 10168212e62cf427e9f95a144317181a
+    spriteID: 629f69431f5b1244ba55ec79cc2c195f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,13 +147,13 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1644404138
-    name: Green Keycard Scanner
+    guid: -1328155594
+    name: Red Keycard Scanner
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Green Keycard Scanner
+    - name: Red Keycard Scanner
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -161,7 +161,7 @@ ScriptedImporter:
         y: 0
         width: 23
         height: 32
-      spriteId: 10168212e62cf427e9f95a144317181a
+      spriteId: 629f69431f5b1244ba55ec79cc2c195f
     linkedCells: []
     parentIndex: -1
   platformSettings:

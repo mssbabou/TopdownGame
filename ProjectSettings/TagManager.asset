@@ -20,7 +20,11 @@ TagManager:
   - Enemy
   - Item
   - NoObstacle
+<<<<<<< Updated upstream
   - Bullet
+=======
+  - Train
+>>>>>>> Stashed changes
   - 
   - 
   - 

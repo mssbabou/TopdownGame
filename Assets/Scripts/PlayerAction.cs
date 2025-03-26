@@ -42,21 +42,35 @@ public class PlayerAction : MonoBehaviour
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position + transform.TransformDirection(InteractOffset), InteractRadius);
 
+
+        Interactable closestInteractable = null;
+        float closestAngle = float.PositiveInfinity;
+        Vector2 closestPosition = Vector2.zero;
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject.TryGetComponent<Interactable>(out var interactable))
             {
-                SelectUI.SetActive(true);
-                SelectUI.transform.position = hit.transform.position;
-                SelectUI.transform.rotation = Quaternion.identity;
-
-                if (Input.GetKeyDown(KeyCode.E)) interactable.Interact(this);
-
-                return;
+                float angle = Vector2.Angle(transform.up, (hit.transform.position - transform.position).normalized);
+                if (angle < closestAngle)
+                {
+                    closestInteractable = interactable;
+                    closestPosition = hit.transform.position;
+                    closestAngle = angle;
+                }
             }
         }
 
-        SelectUI.SetActive(false);
+        if (closestInteractable != null)
+        {
+            SelectUI.SetActive(true);
+            SelectUI.transform.SetPositionAndRotation(closestPosition, Quaternion.identity);
+
+            if (Input.GetKeyDown(KeyCode.E)) closestInteractable.Interact(this);
+        }
+        else 
+        {
+            SelectUI.SetActive(false);
+        }
     }
 
     private void CheckPickup()

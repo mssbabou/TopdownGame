@@ -30,13 +30,11 @@ public class PickupGun : MonoBehaviour
             }
 
             MeleeWeapon meleeWeapon = hit.GetComponent<MeleeWeapon>();
-            Debug.Log("Picked up melee weapon");
             if (meleeWeapon != null)
             {
                 PlayerShoot playerShoot = GetComponent<PlayerShoot>();
                 if (playerShoot != null)
                 {
-                    Debug.Log("Picked up melee weapon");
                     playerShoot.PickupMeleeWeapon(meleeWeapon);
 
 

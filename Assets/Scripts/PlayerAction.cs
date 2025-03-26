@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    public GameObject SelectUI;
     public SpriteRenderer PlayerSprite;
     public Color NormalColor = Color.white;
     public Color DamagedColor = Color.red;
@@ -23,7 +25,7 @@ public class PlayerAction : MonoBehaviour
 
     void Start()
     {
-
+        SelectUI.SetActive(false);
         health = GetComponent<Health>();
         health.onTakeDamage.AddListener(TakeDamage);
     }
@@ -33,11 +35,10 @@ public class PlayerAction : MonoBehaviour
     {
         CheckPickup();
 
-        if (Input.GetKeyDown(KeyCode.E))
-            CheckInteractions();
+        UpdateInteractions();
     }
 
-    private void CheckInteractions()
+    private void UpdateInteractions()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position + transform.TransformDirection(InteractOffset), InteractRadius);
 
@@ -45,9 +46,17 @@ public class PlayerAction : MonoBehaviour
         {
             if (hit.gameObject.TryGetComponent<Interactable>(out var interactable))
             {
-                interactable.Interact(this);
+                SelectUI.SetActive(true);
+                SelectUI.transform.position = hit.transform.position;
+                SelectUI.transform.rotation = Quaternion.identity;
+
+                if (Input.GetKeyDown(KeyCode.E)) interactable.Interact(this);
+
+                return;
             }
         }
+
+        SelectUI.SetActive(false);
     }
 
     private void CheckPickup()

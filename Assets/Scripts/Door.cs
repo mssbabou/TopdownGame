@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class HorizontalDoor : MonoBehaviour
+public class Door : MonoBehaviour
 {
     public Transform doorTransform;
     public Collider2D doorCollider;
-    public float MoveOffset = 3f;
+    public Vector2 MoveOffset;
     public float Speed = 2f;
 
     [SerializeField] public bool IsOpen { get; private set; } = false;
@@ -19,7 +19,7 @@ public class HorizontalDoor : MonoBehaviour
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
 
-        currentCoroutine = StartCoroutine(MoveDoor(Vector3.up * MoveOffset));
+        currentCoroutine = StartCoroutine(MoveDoor(MoveOffset));
         IsOpen = true;
 
         doorCollider.enabled = false;

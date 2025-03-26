@@ -4,6 +4,9 @@ public class PickupGun : MonoBehaviour
 {
     public float PickupRange = 1f;
     public LayerMask ItemLayer;
+    public Transform characterHand;
+
+    public Animator Animator;
 
     private void Update()
     {
@@ -25,6 +28,7 @@ public class PickupGun : MonoBehaviour
                     playerShoot.PickupGun(gun);
                     gun.gameObject.GetComponent<Collider2D>().enabled = false;
                     gun.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    gun.gameObject.layer = LayerMask.NameToLayer("Weapon");
                 }
                 continue;
             }
@@ -38,8 +42,14 @@ public class PickupGun : MonoBehaviour
                     playerShoot.PickupMeleeWeapon(meleeWeapon);
 
 
-                    meleeWeapon.gameObject.GetComponent<Collider2D>().enabled = false;
-                    meleeWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    if (characterHand != null)
+                    {
+                        meleeWeapon.transform.SetParent(characterHand);
+                        meleeWeapon.transform.localPosition = Vector3.zero;
+                        meleeWeapon.transform.localRotation = Quaternion.identity;
+                        meleeWeapon.gameObject.layer = LayerMask.NameToLayer("Weapon");
+
+                    }
                 }
                 continue;
             }

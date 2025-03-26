@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
@@ -5,31 +6,25 @@ public class MeleeWeapon : MonoBehaviour
     public string weaponName;
     public int damage;
     private Animator animator;
-    public GameObject weaponPositionObject;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInParent<Animator>(); // Ensure the Animator is on the character
     }
 
     public void Hit()
     {
-        if (weaponPositionObject != null)
+        animator.Play("WeaponHit");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Check if the collided object has a Health component
+        Health health = collision.GetComponent<Health>();
+        if (health != null)
         {
-            // Check if the "Hit" animation is already playing
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (!stateInfo.IsName("Hit") || stateInfo.normalizedTime >= 1.0f)
-            {
-                Transform weaponPosition = weaponPositionObject.transform;
-                transform.position = weaponPosition.position;
-                transform.rotation = weaponPosition.rotation;
-                Debug.Log("Hit with " + weaponName);
-                animator.SetTrigger("Hit");
-            }
-            else
-            {
-                Debug.Log("Hit animation is still playing.");
-            }
+            // Deal damage to the object
+            health.TakeDamage(damage);
         }
     }
 }

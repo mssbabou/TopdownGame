@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8259615917609631632}
   - component: {fileID: 2511984936561936591}
   - component: {fileID: 3668971343703897741}
+  - component: {fileID: 1434373262622083653}
   m_Layer: 7
   m_Name: Crowbar
   m_TagString: Crowbar
@@ -82,7 +83,7 @@ SpriteRenderer:
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 1, y: 0.78125}
   m_AdaptiveModeThreshold: 0.5
@@ -124,8 +125,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.546875}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.44780326}
+  m_Radius: 0.4911976
 --- !u!114 &3668971343703897741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,3 +141,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Crowbar
   damage: 25
+--- !u!95 &1434373262622083653
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2327541344412923932}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 71a3e41649dcba84c8da3fca3d29daec, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

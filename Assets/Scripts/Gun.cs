@@ -14,6 +14,8 @@ public class Gun : MonoBehaviour, IGun
 
     public AudioClip EmptyMag;
 
+    private SpriteRenderer spriteRenderer;
+
     public bool IsAutomatic()
     {
         return gunData.isAutomatic;
@@ -21,6 +23,8 @@ public class Gun : MonoBehaviour, IGun
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         currentAmmo = gunData.clipSize;
         maxAmmo = gunData.maxAmmo;
         audioSource = gameObject.AddComponent<AudioSource>();
@@ -151,5 +155,12 @@ public class Gun : MonoBehaviour, IGun
     public int GetMaxAmmo()
     {
         return maxAmmo;
+    }
+
+    public Sprite GetSprite()
+    {
+        if (spriteRenderer == null) return null;
+
+        return spriteRenderer.sprite;
     }
 }

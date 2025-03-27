@@ -1,6 +1,10 @@
 using System.Collections;
 using Pathfinding;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
+
+
 
 public class MeleeEnemy : MonoBehaviour
 {
@@ -28,6 +32,10 @@ public class MeleeEnemy : MonoBehaviour
     public float timeBetweenAttacks = 1f;
     private bool alreadyAttacked;
 
+    public UnityEvent OnAttack;
+    public Animator animator;
+
+
     // The damage the enemy deals
     public float damageAmount = 10f;
 
@@ -46,12 +54,15 @@ public class MeleeEnemy : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+
+
     private void Awake()
     {
         // Health & onDeath
         health = GetComponent<Health>();
         health.onDeath.AddListener(Die);
         health.onTakeDamage.AddListener(TakeDamage);
+ 
 
         // A* Pathfinding
         Navigation = GetComponent<IAstarAI>();
@@ -75,6 +86,8 @@ public class MeleeEnemy : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+
+       
     }
 
     private void Patroling()
@@ -90,8 +103,8 @@ public class MeleeEnemy : MonoBehaviour
 
     private void SearchWalkPoint()
     {
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-        float randomY = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+        float randomY = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
         Vector2 candidatePoint = new Vector2(transform.position.x + randomX,
                                              transform.position.y + randomY);
@@ -140,15 +153,14 @@ public class MeleeEnemy : MonoBehaviour
             // 2) If we hit the player, call TakeDamage on their Health script
             foreach (Collider2D collider in hitObjects)
             {
-                bool playAttackAnimation = true;
-                
+
+                AttackAnimation();
                 // Make sure the object has a Health component
                 Health playerHealth = collider.GetComponent<Health>();
                 if (playerHealth != null)
                 {
                     playerHealth.TakeDamage(damageAmount);
                 }
-                playAttackAnimation = false;
 
             }
 
@@ -157,9 +169,29 @@ public class MeleeEnemy : MonoBehaviour
         }
     }
 
+
+    private void OnDestroy()
+    {
+
+    }
+
+    public void AttackAnimation()
+    {
+        animator.SetBool("Attacking", true);   
+    }
+
+    private void StopAttackAnimation()
+    {
+        animator.SetBool("Attacking", false);
+    }
+
+
+
+
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        StopAttackAnimation();
     }
 
     private void Die()

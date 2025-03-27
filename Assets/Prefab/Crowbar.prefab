@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Crowbar
   damage: 25
+  Crowbar: {fileID: 3287887259155812473}
 --- !u!95 &1434373262622083653
 Animator:
   serializedVersion: 7

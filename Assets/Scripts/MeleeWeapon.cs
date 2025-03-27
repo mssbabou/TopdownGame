@@ -57,22 +57,15 @@ public class MeleeWeapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Health health = collision.GetComponent<Health>();
-        Door door = collision.GetComponentInParent<Door>();
+        Health health = collision.GetComponent<Health>() ?? collision.GetComponentInParent<Health>();
 
         if (health != null)
         {
-            Debug.Log($"Hit {collision.gameObject.name} or its parent for {damage} damage.");
             health.TakeDamage(damage);
-        }
-        if (door != null)
-        {
-            Debug.Log($"Hit {collision.gameObject.name} (a door).");
-            door.TakeDamage(damage);
         }
         else
         {
-            Debug.Log($"Hit {collision.gameObject.name} but neither it nor its parent has health.");
+            Debug.Log($"Not a breakable obj");
         }
     }
 }

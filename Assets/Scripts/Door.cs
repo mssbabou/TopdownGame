@@ -8,19 +8,18 @@ public class Door : MonoBehaviour
     public Vector2 MoveOffset;
     public float Speed = 2f;
 
+
     [SerializeField] public bool IsOpen { get; private set; } = false;
 
     private Coroutine currentCoroutine;
-    public bool Breakable;
-    public float MaxHealth = 100f;
-    private float currentHealth;
 
+    private Health health;
 
-    private void Awake()
+    void Start()
     {
-        currentHealth = MaxHealth;
+        health = GetComponent<Health>();
+        health.onDeath.AddListener(onDeath);
     }
-
     public void Open()
     {
         if (IsOpen) return;
@@ -58,17 +57,7 @@ public class Door : MonoBehaviour
             Open();
         }
     }
-    public void TakeDamage(float damage)
-    {
-        if (!Breakable) return;
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            DestroyDoor();
-        }
-    }
-
-    private void DestroyDoor()
+    void onDeath()
     {
         Destroy(gameObject);
     }

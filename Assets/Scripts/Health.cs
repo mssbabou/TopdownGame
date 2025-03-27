@@ -27,7 +27,6 @@ public class Health : MonoBehaviour
 
         // Trigger health change event
         onTakeDamage.Invoke();
-
         // Check if health reaches zero and trigger death event
         if (CurrentHealth == 0)
         {

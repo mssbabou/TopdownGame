@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Shotgun
   fireRate: 1
-  accuracy: 15
+  accuracy: 45
   bulletPerShot: 15
-  damage: 1
+  damage: 5
   clipSize: 7
   maxAmmo: 1000
   reloadTime: 4

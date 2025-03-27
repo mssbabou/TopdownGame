@@ -109,6 +109,10 @@ public class MeleeEnemy : MonoBehaviour
         if (player != null)
         {
             SetDestination(player.position);
+            Vector2 direction = player.position - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
+
         }
     }
 
@@ -132,15 +136,20 @@ public class MeleeEnemy : MonoBehaviour
                 whatIsPlayer
             );
 
+
             // 2) If we hit the player, call TakeDamage on their Health script
             foreach (Collider2D collider in hitObjects)
             {
+                bool playAttackAnimation = true;
+                
                 // Make sure the object has a Health component
                 Health playerHealth = collider.GetComponent<Health>();
                 if (playerHealth != null)
                 {
                     playerHealth.TakeDamage(damageAmount);
                 }
+                playAttackAnimation = false;
+
             }
 
             alreadyAttacked = true;

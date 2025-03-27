@@ -5,6 +5,8 @@ public class HotbarUI : MonoBehaviour
 {
     public PlayerShoot PS;
     public GameObject SelectorUI;
+
+    public Image MeleeHotbarImage;
     public Image[] HotbarImages;
 
     void Start()
@@ -47,6 +49,24 @@ public class HotbarUI : MonoBehaviour
             {
                 HotbarImages[i].enabled = false;
             }
+        }
+
+        if (PS.meleeWeapons.Count > 0)
+        {
+            Sprite sprite = PS.meleeWeapons[0].GetSprite();
+            MeleeHotbarImage.sprite = sprite;
+            MeleeHotbarImage.enabled = true;
+            MeleeHotbarImage.preserveAspect = true;
+
+            MeleeHotbarImage.SetNativeSize();
+
+            Vector2 nativeSize = MeleeHotbarImage.rectTransform.sizeDelta;
+            float scaleFactor = Mathf.Min(100f / nativeSize.x, 100f / nativeSize.y, 1f);
+            MeleeHotbarImage.rectTransform.sizeDelta = nativeSize * scaleFactor;
+        }
+        else
+        {
+            MeleeHotbarImage.enabled = false;
         }
     }
 }

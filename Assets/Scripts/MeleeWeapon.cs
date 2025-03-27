@@ -14,8 +14,6 @@ public class MeleeWeapon : MonoBehaviour
     private Collider2D collider2D;
     private bool canSwing = true;
 
-
-
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -67,5 +65,12 @@ public class MeleeWeapon : MonoBehaviour
         {
             Debug.Log($"Not a breakable obj");
         }
+    }
+
+    internal Sprite GetSprite()
+    {
+        if (spriteRenderer == null) return null;
+
+        return spriteRenderer.sprite;
     }
 }

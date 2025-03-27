@@ -95,7 +95,7 @@ public class MeleeEnemy : MonoBehaviour
         if (!walkPointSet) SearchWalkPoint();
         if (walkPointSet)
         {
-            SetDestination(walkPoint);
+            //SetDestination(walkPoint);
             Vector2 distanceToWalkPoint = (Vector2)transform.position - walkPoint;
             if (distanceToWalkPoint.magnitude < 0.5f) walkPointSet = false;
         }

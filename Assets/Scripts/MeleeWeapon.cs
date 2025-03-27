@@ -11,6 +11,7 @@ public class MeleeWeapon : MonoBehaviour
 
     public Transform Crowbar;
     private SpriteRenderer spriteRenderer;
+    private Collider2D collider2D;
     private bool canSwing = true;
 
 
@@ -18,6 +19,8 @@ public class MeleeWeapon : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
+
     }
 
     public void Hit()
@@ -34,6 +37,7 @@ public class MeleeWeapon : MonoBehaviour
         float elapsedTime = 0f;
         float duration = 0.5f;
         spriteRenderer.enabled = true;
+        collider2D.enabled = true;
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
@@ -42,6 +46,7 @@ public class MeleeWeapon : MonoBehaviour
         }
 
         spriteRenderer.enabled = false;
+        collider2D.enabled = false;
 
         Crowbar.localRotation = Quaternion.identity;
 

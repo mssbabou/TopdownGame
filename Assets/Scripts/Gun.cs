@@ -24,6 +24,7 @@ public class Gun : MonoBehaviour, IGun
         currentAmmo = gunData.clipSize;
         maxAmmo = gunData.maxAmmo;
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.volume = 0.05f;
     }
 
     private void Update()

@@ -20,7 +20,6 @@ public class MeleeWeapon : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider2D = GetComponent<Collider2D>();
-
     }
 
     public void Hit()
@@ -59,10 +58,21 @@ public class MeleeWeapon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Health health = collision.GetComponent<Health>();
+        Door door = collision.GetComponentInParent<Door>();
+
         if (health != null)
         {
-            // Deal damage to the object
+            Debug.Log($"Hit {collision.gameObject.name} or its parent for {damage} damage.");
             health.TakeDamage(damage);
+        }
+        if (door != null)
+        {
+            Debug.Log($"Hit {collision.gameObject.name} (a door).");
+            door.TakeDamage(damage);
+        }
+        else
+        {
+            Debug.Log($"Hit {collision.gameObject.name} but neither it nor its parent has health.");
         }
     }
 }

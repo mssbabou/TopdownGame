@@ -11,6 +11,15 @@ public class Door : MonoBehaviour
     [SerializeField] public bool IsOpen { get; private set; } = false;
 
     private Coroutine currentCoroutine;
+    public bool Breakable;
+    public float MaxHealth = 100f;
+    private float currentHealth;
+
+
+    private void Awake()
+    {
+        currentHealth = MaxHealth;
+    }
 
     public void Open()
     {
@@ -44,10 +53,24 @@ public class Door : MonoBehaviour
         {
             Close();
         }
-        else 
+        else
         {
             Open();
         }
+    }
+    public void TakeDamage(float damage)
+    {
+        if (!Breakable) return;
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            DestroyDoor();
+        }
+    }
+
+    private void DestroyDoor()
+    {
+        Destroy(gameObject);
     }
 
     private IEnumerator MoveDoor(Vector3 targetPosition)
@@ -68,4 +91,3 @@ public class Door : MonoBehaviour
         currentCoroutine = null;
     }
 }
-

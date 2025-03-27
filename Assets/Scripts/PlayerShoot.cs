@@ -34,7 +34,7 @@ public class PlayerShoot : MonoBehaviour
         HandleReloading();
         HandleGunSwitching();
         HandleMeleeWeaponUsage();
-        HandleCrowbarEquip();
+        //HandleCrowbarEquip();
         UpdateReloadProgress();
         UpdateSliderPosition();
     }
@@ -79,13 +79,15 @@ public class PlayerShoot : MonoBehaviour
 
     private void HandleMeleeWeaponUsage()
     {
-        if (currentMeleeWeaponIndex >= 0 && currentMeleeWeaponIndex < meleeWeapons.Count)
+
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (currentMeleeWeaponIndex >= 0 && currentMeleeWeaponIndex < meleeWeapons.Count && meleeWeapons[currentMeleeWeaponIndex] != null)
             {
                 meleeWeapons[currentMeleeWeaponIndex].Hit();
             }
         }
+
     }
 
     private void HandleReloading()
@@ -183,21 +185,21 @@ public class PlayerShoot : MonoBehaviour
 
     }
 
-    private void HandleCrowbarEquip()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            for (int i = 0; i < meleeWeapons.Count; i++)
-            {
-                if (meleeWeapons[i].weaponName == "Crowbar")
-                {
-                    EquipMeleeWeapon(i);
-
-                    break;
-                }
-            }
-        }
-    }
+    //private void HandleCrowbarEquip()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F))
+    //    {
+    //        for (int i = 0; i < meleeWeapons.Count; i++)
+    //       {
+    //            if (meleeWeapons[i].weaponName == "Crowbar")
+    //            {
+    //                EquipMeleeWeapon(i);
+    //
+    //                break;
+    //           }
+    //       }
+    //   }
+    // }
 
     public int GetCurrentGunIndex()
     {

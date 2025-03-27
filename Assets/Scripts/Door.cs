@@ -17,8 +17,12 @@ public class Door : MonoBehaviour
 
     void Start()
     {
-        health = GetComponent<Health>();
-        health.onDeath.AddListener(onDeath);
+
+        if (GetComponent<Health>() != null)
+        {
+            health = GetComponent<Health>();
+            health.onDeath.AddListener(onDeath);
+        }
     }
     public void Open()
     {

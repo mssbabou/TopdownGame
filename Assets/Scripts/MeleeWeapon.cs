@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Unity.Burst.Intrinsics;
+using UnityEditor;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
@@ -8,51 +9,50 @@ public class MeleeWeapon : MonoBehaviour
     public string weaponName;
     public int damage;
 
-    public SpriteRenderer spi;
+    public Transform Crowbar;
+    private SpriteRenderer spriteRenderer;
+    private bool canSwing = true;
 
 
 
     void Start()
     {
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Hit()
     {
-        // Move the weapon forward and swing
         StartCoroutine(SwingWeapon());
     }
 
     private IEnumerator SwingWeapon()
     {
-        spi.enabled = true;
-        // Move the weapon forward
-        Vector3 originalPosition = transform.localPosition;
-        Vector3 targetPosition = originalPosition + Vector3.forward * 1.5f;
-        float swingSpeed = 3f;
-        float progress = 0f;
-        while (progress <= 1)
+        if (!canSwing) yield break;
+
+        canSwing = false;
+
+        float elapsedTime = 0f;
+        float duration = 0.5f;
+        spriteRenderer.enabled = true;
+        while (elapsedTime < duration)
         {
-            transform.localPosition = Vector3.Lerp(originalPosition, targetPosition, progress);
-            progress += Time.deltaTime * swingSpeed;
+            elapsedTime += Time.deltaTime;
+            Crowbar.Rotate(0, 0, 360 * Time.deltaTime / duration);
             yield return null;
         }
-        // Move the weapon back
-        progress = 0f;
-        while (progress <= 1)
-        {
-            transform.localPosition = Vector3.Lerp(targetPosition, originalPosition, progress);
-            progress += Time.deltaTime * swingSpeed;
-            yield return null;
-        }
-        transform.localPosition = originalPosition;
+
+        spriteRenderer.enabled = false;
+
+        Crowbar.localRotation = Quaternion.identity;
+
+        yield return new WaitForSeconds(0.1f);
+        canSwing = true;
     }
 
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collided object has a Health component
         Health health = collision.GetComponent<Health>();
         if (health != null)
         {

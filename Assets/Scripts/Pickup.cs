@@ -6,7 +6,6 @@ public class PickupGun : MonoBehaviour
     public LayerMask ItemLayer;
     public Transform characterHand;
 
-    public Animator Animator;
 
     private void Update()
     {

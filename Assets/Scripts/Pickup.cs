@@ -47,6 +47,8 @@ public class PickupGun : MonoBehaviour
                         meleeWeapon.transform.SetParent(characterHand);
                         meleeWeapon.transform.localPosition = Vector3.zero;
                         meleeWeapon.transform.localRotation = Quaternion.identity;
+                        meleeWeapon.gameObject.GetComponent<Collider2D>().enabled = false;
+                        meleeWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                         meleeWeapon.gameObject.layer = LayerMask.NameToLayer("Weapon");
 
                     }

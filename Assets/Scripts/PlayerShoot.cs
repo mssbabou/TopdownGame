@@ -199,17 +199,18 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void OnGUI()
+    public int GetCurrentGunIndex()
     {
-        if (guns.Count > 0 && currentGunIndex >= 0 && currentGunIndex < guns.Count)
-        {
-            GUIStyle style = new GUIStyle()
-            {
-                fontSize = 24,
-                normal = new GUIStyleState() { textColor = Color.white }
-            };
-
-            GUI.Label(new Rect(10, Screen.height - 30, 200, 20), $"Ammo: {guns[currentGunIndex]?.GetCurrentAmmo()} / {guns[currentGunIndex]?.GetMaxAmmo()}", style);
-        }
+        return currentGunIndex;
     }
+
+    public Gun GetCurrentGun()
+    {
+        if (currentGunIndex >= 0 && currentGunIndex < guns.Count)
+        {
+            return guns[currentGunIndex];
+        }
+        return null;
+    }
+
 }

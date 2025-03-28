@@ -18,7 +18,7 @@ MonoBehaviour:
   bulletPerShot: 15
   damage: 5
   clipSize: 7
-  maxAmmo: 1000
+  maxAmmo: 100
   reloadTime: 4
   ammoType: 2
   bulletSpeed: 50

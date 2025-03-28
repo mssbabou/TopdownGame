@@ -16,7 +16,7 @@ MonoBehaviour:
   fireRate: 100
   accuracy: 1
   bulletPerShot: 1
-  damage: 10
+  damage: 15
   clipSize: 6
   maxAmmo: 12
   reloadTime: 1

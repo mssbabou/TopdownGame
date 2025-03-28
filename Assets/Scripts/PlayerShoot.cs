@@ -79,15 +79,19 @@ public class PlayerShoot : MonoBehaviour
 
     private void HandleMeleeWeaponUsage()
     {
-
         if (Input.GetKeyDown(KeyCode.V))
         {
-            if (currentMeleeWeaponIndex >= 0 && currentMeleeWeaponIndex < meleeWeapons.Count && meleeWeapons[currentMeleeWeaponIndex] != null)
+            // Check if the player has any melee weapons
+            if (meleeWeapons.Count > 0)
             {
-                meleeWeapons[currentMeleeWeaponIndex].Hit();
+                // Use the first melee weapon in the list (e.g., crowbar)
+                meleeWeapons[0].Hit();
+            }
+            else
+            {
+                Debug.LogWarning("No melee weapon available to use.");
             }
         }
-
     }
 
     private void HandleReloading()

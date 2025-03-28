@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class PlayerAction : MonoBehaviour
         SelectUI.SetActive(false);
         health = GetComponent<Health>();
         health.onTakeDamage.AddListener(TakeDamage);
+        health.onDeath.AddListener(OnDie);
     }
 
     // Update is called once per frame
@@ -90,6 +92,11 @@ public class PlayerAction : MonoBehaviour
     private void TakeDamage()
     {
         StartCoroutine(TakeDamageColorChange());
+    }
+
+    private void OnDie()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator TakeDamageColorChange()
